@@ -18,7 +18,8 @@ COLORTERM=yes
 CLICOLOR=yes
 # LESS=-RXFEm
 EDITOR='subl -nw' #commented until it works again
-export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR
+ZSH_CUSTOM=~/.oh-my-custom
+export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR ZSH_CUSTOM
 
 alias o='open'
 alias grep='grep --color'
@@ -129,4 +130,4 @@ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 # NVM, why?
 
 export NVM_DIR=$(brew --prefix nvm)
-# [ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
+[ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
