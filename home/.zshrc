@@ -114,6 +114,11 @@ prompt_chpwd() {
 }
 add-zsh-hook chpwd prompt_chpwd
 
+# NVM, why?
+
+export NVM_DIR=~/.nvm
+[ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
+  
 # -----------------------------------------------
 # nice login stuff
 # -----------------------------------------------
