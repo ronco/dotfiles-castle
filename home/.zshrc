@@ -19,6 +19,7 @@ CLICOLOR=yes
 # LESS=-RXFEm
 EDITOR='subl -nw' #commented until it works again
 ZSH_CUSTOM=~/.oh-my-custom
+ZSH_THEME='random'
 export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR ZSH_CUSTOM
 
 alias o='open'
@@ -88,7 +89,7 @@ if ! zgen saved; then
     zgen load zsh-users/zsh-completions src
 
     # theme
-    zgen oh-my-zsh themes/agnoster
+    # zgen oh-my-zsh themes/agnoster
 
     # save all to init script
     zgen save
