@@ -116,7 +116,6 @@ prompt_chpwd() {
 }
 add-zsh-hook chpwd prompt_chpwd
 
-
 # -----------------------------------------------
 # nice login stuff
 # -----------------------------------------------
@@ -127,6 +126,10 @@ echo "------------------------"
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 
 [ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
+
+if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
+  source `brew --prefix`/etc/profile.d/z.sh
+fi
 
 # NVM, why?
 
