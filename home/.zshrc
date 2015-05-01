@@ -22,25 +22,6 @@ ZSH_CUSTOM=~/.oh-my-custom
 ZSH_THEME='random'
 export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR ZSH_CUSTOM
 
-alias o='open'
-alias grep='grep --color'
-alias cls='clear'
-alias ls='ls -FG'
-
-alias dbmigrate="bundle exec rake db:migrate db:test:prepare"
-alias prc="RAILS_ENV=production rc"
-alias testlog="tail -f log/test.log"
-alias killrb="killall ruby; pkill -f passenger; killall ruby"
-alias bower='noglob bower'
-alias rspec_changed="git list-changed-tests | xargs rspec --drb"
-
-alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder'
-alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder'
-
-function back () {
-  ack "$@" `bundle show --paths`
-}
-
 autoload zmv
 zmodload zsh/mathfunc
 
