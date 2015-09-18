@@ -17,11 +17,12 @@ RSYNC_RSH=/usr/bin/ssh
 COLORTERM=yes
 CLICOLOR=yes
 # LESS=-RXFEm
-EDITOR='subl -nw' #commented until it works again
+EDITOR='emacs'
+REPORTTIME=3 # display commands with execution time >= 3 seconds
 ZSH_CUSTOM=~/.oh-my-custom
 # ZSH_THEME='random'
 ZSH_THEME='rkj-repos'
-export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR ZSH_CUSTOM
+export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR ZSH_CUSTOM REPORTTIME
 
 autoload zmv
 zmodload zsh/mathfunc
