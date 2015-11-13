@@ -22,6 +22,10 @@ REPORTTIME=3 # display commands with execution time >= 3 seconds
 ZSH_CUSTOM=~/.oh-my-custom
 # ZSH_THEME='random'
 ZSH_THEME='rkj-repos'
+if [[ -n ${INSIDE_EMACS} ]]; then
+    # This shell runs inside an Emacs *shell*/*term* buffer.
+    unsetopt zle
+fi
 export EDITOR PAGER RSYNC_RSH COLORTERM HISTFILE HISTSIZE SAVEHIST CLICOLOR ZSH_CUSTOM REPORTTIME
 
 autoload zmv
