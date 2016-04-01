@@ -220,6 +220,19 @@ function ssidChangedCallback()
     lastSSID = newSSID
 end
 
+-- Callback for usb changes
+function usbDeviceCallback(data)
+   print("usbDeviceCallback: "..hs.inspect(data))
+   if (data["productName"] == "USB 10/100/1000 LAN") then
+      event = data["eventType"]
+      if (event == "added") then
+         hs.wifi.setPower(false)
+      elseif (event == "removed") then
+         hs.wifi.setPower(true)
+      end
+   end
+end
+
 -- Callback function for changes in screen layout
 function screensChangedCallback()
     print("screensChangedCallback")
@@ -353,6 +366,13 @@ hs.hotkey.bind(hyper, 'q', function() toggle_application("Google Chrome") end)
 -- Misc hotkeys
 hs.hotkey.bind(hyper, 'y', hs.toggleConsole)
 hs.hotkey.bind(hyper, 'd', mouseHighlight)
+hs.hotkey.bind(hyper, '0', function()
+    print(configFileWatcher)
+    print(wifiWatcher)
+    print(screenWatcher)
+    print(usbWatcher)
+end)
+
 
 -- Create and start our callbacks
 -- appWatcher = hs.application.watcher.new(applicationWatcher):start()
@@ -365,6 +385,9 @@ wifiWatcher:start()
 
 configFileWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig)
 configFileWatcher:start()
+
+usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
+usbWatcher:start()
 
 -- Make sure we have the right location settings
 if hs.wifi.currentNetwork() == homeSSID then
