@@ -92,23 +92,30 @@ end
 -- layout builder
 
 function build_layout(numberOfScreens)
+   print("Building layout for " .. numberOfScreens .. " screens")
    local primaryScreen, secondaryScreen, tertiaryScreen = get_screens(numberOfScreens)
+   print("primaryScreen: ")
+   print(hs.inspect(primaryScreen))
+   print("secondaryScreen: ")
+   print(hs.inspect(secondaryScreen))
+   print("tertiaryScreen: ")
+   print(hs.inspect(tertiaryScreen))
    --   Format reminder:
    --     {"App name", "Window name", "Display Name", "unitrect", "framerect", "fullframerect"},
-   local iTunesMiniPlayerLayout = {"iTunes", "MiniPlayer", laptop_display, nil, nil, hs.geometry.rect(0, -48, 400, 48)}
+   local iTunesMiniPlayerLayout = {"iTunes", "MiniPlayer", display_laptop, nil, nil, hs.geometry.rect(0, -48, 400, 48)}
    if numberOfScreens == 1 then
       return {
-         {"Google Chrome", nil,      laptop_display, hs.layout.maximized, nil, nil},
-         {"HipChat",       nil,      laptop_display, bottomLeftFatRect, nil, nil},
-         {"1Password 6",   nil,      laptop_display, hs.layout.maximized, nil, nil},
-         {"Calendar",      nil,      laptop_display, hs.layout.maximized, nil, nil},
-         {"Messages",      nil,      laptop_display, topLeftRect, nil, nil},
-         {"Slack",         nil,      laptop_display, topRightFatRect, nil, nil},
-         {"Evernote",      nil,      laptop_display, hs.layout.maximized, nil, nil},
-         {"iTunes",        "iTunes", laptop_display, hs.layout.maximized, nil, nil},
-         {"iTerm",         nil,      laptop_display, hs.layout.maximized, nil, nil},
-         {"Emacs",         nil,      laptop_display, hs.layout.left50, nil, nil},
-         {"Emacs",         "*rspec-compilation*",     laptop_display, hs.layout.right50, nil, nil},
+         {"Google Chrome", nil,      display_laptop, hs.layout.maximized, nil, nil},
+         {"HipChat",       nil,      display_laptop, bottomLeftFatRect, nil, nil},
+         {"1Password 6",   nil,      display_laptop, hs.layout.maximized, nil, nil},
+         {"Calendar",      nil,      display_laptop, hs.layout.maximized, nil, nil},
+         {"Messages",      nil,      display_laptop, topLeftRect, nil, nil},
+         {"Slack",         nil,      display_laptop, topRightFatRect, nil, nil},
+         {"Evernote",      nil,      display_laptop, hs.layout.maximized, nil, nil},
+         {"iTunes",        "iTunes", display_laptop, hs.layout.maximized, nil, nil},
+         {"iTerm",         nil,      display_laptop, hs.layout.maximized, nil, nil},
+         {"Emacs",         nil,      display_laptop, hs.layout.left50, nil, nil},
+         {"Emacs",         "*rspec-compilation*",     display_laptop, hs.layout.right50, nil, nil},
          iTunesMiniPlayerLayout,
       }
    elseif numberOfScreens == 2 then
@@ -128,17 +135,17 @@ function build_layout(numberOfScreens)
       }
    elseif numberOfScreens == 3 then
       return {
-         {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
-         {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect, nil, nil},
-         {"1Password 6",   nil,      secondaryScreen, hs.layout.maximized, nil, nil},
-         {"Calendar",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
-         {"Messages",      nil,      secondaryScreen, topLeftRect, nil, nil},
-         {"Slack",         nil,      secondaryScreen, topRightFatRect, nil, nil},
-         {"Evernote",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
-         {"iTunes",        "iTunes", secondaryScreen, hs.layout.maximized, nil, nil},
-         {"iTerm",         nil,      tertiaryScreeen, hs.layout.maximized, nil, nil},
-         {"Emacs",         nil,      primaryScreen,   hs.layout.maximized, nil, nil},
-         {"Emacs",         "*rspec-compilation*",     tertiaryScreen, hs.layout.maximized, nil, nil},
+         {"Google Chrome", nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
+         {"HipChat",       nil,                       secondaryScreen, bottomLeftFatRect,   nil, nil},
+         {"1Password 6",   nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Calendar",      nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Messages",      nil,                       secondaryScreen, topLeftRect,         nil, nil},
+         {"Slack",         nil,                       secondaryScreen, topRightFatRect,     nil, nil},
+         {"Evernote",      nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTunes",        "iTunes",                  secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Emacs",         nil,                       primaryScreen,   hs.layout.maximized, nil, nil},
+         {"Emacs",         "*rspec-compilation*",     tertiaryScreen,  hs.layout.maximized, nil, nil},
+         {"iTerm",         nil,                       tertiaryScreen,  hs.layout.maximized, nil, nil},
          iTunesMiniPlayerLayout,
       }
    end
@@ -350,7 +357,7 @@ hs.hotkey.bind(hyper, 'd', mouseHighlight)
 -- Create and start our callbacks
 -- appWatcher = hs.application.watcher.new(applicationWatcher):start()
 
-screenWatcher = hs.screen.watcher.new(debounce(screensChangedCallback, 2))
+screenWatcher = hs.screen.watcher.new(debounce(screensChangedCallback, 5))
 screenWatcher:start()
 
 wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
