@@ -26,6 +26,7 @@ local hyper = {"⌘", "⌥", "⌃", "⇧"}
 
 -- Define monitor names for layout purposes
 local display_laptop = "Color LCD"
+local display_dell = "DELL U2415"
 
 -- Defines for WiFi watcher
 local homeSSID = "Whistello-5G" -- My home WiFi SSID
@@ -53,24 +54,117 @@ local topRightFatRect = hs.geometry.unitrect(0.4, 0, 0.6, 0.5)
 local bottomLeftFatRect = hs.geometry.unitrect(0, 0.5, 0.6, 0.5)
 local bottomRightFatRect = hs.geometry.unitrect(0.4, 0.5, 0.6, 0.5)
 
---   Format reminder:
---     {"App name", "Window name", "Display Name", "unitrect", "framerect", "fullframerect"},
-local iTunesMiniPlayerLayout = {"iTunes", "MiniPlayer", display_laptop, nil, nil, hs.geometry.rect(0, -48, 400, 48)}
-local internal_display = {
-    {"Google Chrome",    nil,          display_laptop, hs.layout.maximized, nil, nil},
-    {"HipChat",          nil,          display_laptop, bottomLeftFatRect, nil, nil},
-    {"1Password 6",      nil,          display_laptop, hs.layout.maximized, nil, nil},
-    {"Calendar",         nil,          display_laptop, hs.layout.maximized, nil, nil},
-    {"Messages",         nil,          display_laptop, topLeftRect, nil, nil},
-    {"Slack",            nil,          display_laptop, topRightFatRect, nil, nil},
-    {"Evernote",         nil,          display_laptop, hs.layout.maximized, nil, nil},
-    {"iTunes",           "iTunes",     display_laptop, hs.layout.maximized, nil, nil},
-    {"Emacs",            nil,          display_laptop, hs.layout.left50, nil, nil},
-    {"Emacs",            "*rspec-compilation*",     display_laptop, hs.layout.right50, nil, nil},
-    iTunesMiniPlayerLayout,
-}
-
 -- Helper functions
+
+function debounce(func, wait, immediate)
+   local timeout = false
+   return function()
+     local later = function()
+       timeout = nil
+       if not immediate then func() end
+     end
+     local callNow = immediate and not timeout
+     if timeout then timeout:stop() end
+     timeout = hs.timer.doAfter(wait, later)
+     if callNow then func() end
+   end
+end
+
+-- screen finder
+
+function find_external_screen(orientation)
+   if not orientation then orientation = 'landscape' end
+   allscreens = hs.screen.allScreens()
+   if orientation == 'landscape' then
+      return find_screen(function(desc) return desc['w'] > desc['h'] end, allscreens)
+   elseif orientation == 'portrait' then
+      return find_screen(function(desc) return desc['h'] > desc['w'] end, allscreens)
+   end
+end
+
+function find_screen(comparator, screens)
+   i = table.find_index(comparator, map(function(screen) return screen:currentMode() end, screens))
+   if i then
+      return screens[i]
+   end
+end
+
+-- layout builder
+
+function build_layout(numberOfScreens)
+   local primaryScreen, secondaryScreen, tertiaryScreen = get_screens(numberOfScreens)
+   --   Format reminder:
+   --     {"App name", "Window name", "Display Name", "unitrect", "framerect", "fullframerect"},
+   local iTunesMiniPlayerLayout = {"iTunes", "MiniPlayer", laptop_display, nil, nil, hs.geometry.rect(0, -48, 400, 48)}
+   if numberOfScreens == 1 then
+      return {
+         {"Google Chrome", nil,      laptop_display, hs.layout.maximized, nil, nil},
+         {"HipChat",       nil,      laptop_display, bottomLeftFatRect, nil, nil},
+         {"1Password 6",   nil,      laptop_display, hs.layout.maximized, nil, nil},
+         {"Calendar",      nil,      laptop_display, hs.layout.maximized, nil, nil},
+         {"Messages",      nil,      laptop_display, topLeftRect, nil, nil},
+         {"Slack",         nil,      laptop_display, topRightFatRect, nil, nil},
+         {"Evernote",      nil,      laptop_display, hs.layout.maximized, nil, nil},
+         {"iTunes",        "iTunes", laptop_display, hs.layout.maximized, nil, nil},
+         {"iTerm",         nil,      laptop_display, hs.layout.maximized, nil, nil},
+         {"Emacs",         nil,      laptop_display, hs.layout.left50, nil, nil},
+         {"Emacs",         "*rspec-compilation*",     laptop_display, hs.layout.right50, nil, nil},
+         iTunesMiniPlayerLayout,
+      }
+   elseif numberOfScreens == 2 then
+      return {
+         {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect, nil, nil},
+         {"1Password 6",   nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Calendar",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Messages",      nil,      secondaryScreen, topLeftRect, nil, nil},
+         {"Slack",         nil,      secondaryScreen, topRightFatRect, nil, nil},
+         {"Evernote",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTunes",        "iTunes", secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTerm",         nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Emacs",         nil,      primaryScreen,  hs.layout.left50, nil, nil},
+         {"Emacs",         "*rspec-compilation*",    primaryScreen, hs.layout.right50, nil, nil},
+         iTunesMiniPlayerLayout,
+      }
+   elseif numberOfScreens == 3 then
+      return {
+         {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect, nil, nil},
+         {"1Password 6",   nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Calendar",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Messages",      nil,      secondaryScreen, topLeftRect, nil, nil},
+         {"Slack",         nil,      secondaryScreen, topRightFatRect, nil, nil},
+         {"Evernote",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTunes",        "iTunes", secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTerm",         nil,      tertiaryScreeen, hs.layout.maximized, nil, nil},
+         {"Emacs",         nil,      primaryScreen,   hs.layout.maximized, nil, nil},
+         {"Emacs",         "*rspec-compilation*",     tertiaryScreen, hs.layout.maximized, nil, nil},
+         iTunesMiniPlayerLayout,
+      }
+   end
+
+end
+
+function get_screens(numberOfScreens)
+   local primary = hs.screen.primaryScreen()
+   local secondary, tertiary = nil, nil
+   local secondaryScreens = table.filter(function(screen) return not (screen == primary) end, hs.screen.allScreens())
+   for _, v in pairs(secondaryScreens) do
+      if not secondary then
+         secondary = v
+      else
+         ax = secondary:position()
+         bx = v:position()
+         if ax > bx then
+            tertiary = secondary
+            secondary = v
+         else
+            tertiary = v
+         end
+      end
+   end
+   return primary, secondary, tertiary
+end
 
 -- Toggle an application between being the frontmost app, and being hidden
 function toggle_application(_app)
@@ -134,13 +228,7 @@ function screensChangedCallback()
 end
 
 function setDisplayLayout(newNumberOfScreens)
-   if newNumberOfScreens == 1 then
-      hs.layout.apply(internal_display)
-   elseif newNumberOfScreens == 2 then
-      hs.layout.apply(dual_display)
-   elseif newNumberOfScreens == 3 then
-      hs.layout.apply(triple_display)
-   end
+   hs.layout.apply(build_layout(newNumberOfScreens))
    hs.notify.new({
          title='Hammerspoon',
          informativeText='Display set to ' .. newNumberOfScreens
@@ -262,7 +350,7 @@ hs.hotkey.bind(hyper, 'd', mouseHighlight)
 -- Create and start our callbacks
 -- appWatcher = hs.application.watcher.new(applicationWatcher):start()
 
-screenWatcher = hs.screen.watcher.new(screensChangedCallback)
+screenWatcher = hs.screen.watcher.new(debounce(screensChangedCallback, 2))
 screenWatcher:start()
 
 wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
@@ -287,3 +375,47 @@ hs.notify.new({
 
 collectgarbage("setstepmul", 1000)
 collectgarbage("setpause", 1)
+
+-- Lua patches, common, why is this not in stdlib
+
+function table.set(t) -- set of list
+  local u = { }
+  for _, v in ipairs(t) do u[v] = true end
+  return u
+end
+
+function table.find(f, l) -- find element v of l satisfying f(v)
+  for _, v in ipairs(l) do
+    if f(v) then
+      return v
+    end
+  end
+  return nil
+end
+
+function table.find_index(f, l) -- find element v of l satisfying f(v)
+  for i, v in ipairs(l) do
+    if f(v) then
+      return i
+    end
+  end
+  return nil
+end
+
+function map(func, array)
+  local new_array = {}
+  for i,v in ipairs(array) do
+    new_array[i] = func(v)
+  end
+  return new_array
+end
+
+table.filter = function(filterIter, t)
+  local out = {}
+
+  for k, v in pairs(t) do
+    if filterIter(v, k, t) then out[k] = v end
+  end
+
+  return out
+end
