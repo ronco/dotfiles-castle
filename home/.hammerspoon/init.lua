@@ -119,18 +119,30 @@ end
 
 function build_layout(numberOfScreens)
    print("Building layout for " .. numberOfScreens .. " screens")
+   -- TODO: memo-ize screens
    local primaryScreen, secondaryScreen, tertiaryScreen = get_screens(numberOfScreens)
-   print("primaryScreen: ")
-   print(hs.inspect(primaryScreen))
-   print("secondaryScreen: ")
-   print(hs.inspect(secondaryScreen))
-   print("tertiaryScreen: ")
-   print(hs.inspect(tertiaryScreen))
+   -- print("primaryScreen: ")
+   -- print(hs.inspect(primaryScreen))
+   -- print("secondaryScreen: ")
+   -- print(hs.inspect(secondaryScreen))
+   -- print("tertiaryScreen: ")
+   -- print(hs.inspect(tertiaryScreen))
    --   Format reminder:
    --     {"App name", "Window name", "Display Name", "unitrect", "framerect", "fullframerect"},
    local iTunesMiniPlayerLayout = {"iTunes", "MiniPlayer", display_laptop, nil, nil, hs.geometry.rect(0, -48, 400, 48)}
+   local layout = {}
+   local devChromeTitle = find_active_window_title(chromeDevWindows)
+   local emacsCompilationTitle = find_active_window_title(emacsCompilationWindows)
+   local compilationScreen
+   local primaryEmacsLayout = hs.layout.maximized
+   local compilationEmacsLayout = hs.layout.maximized
    if numberOfScreens == 1 then
-      return {
+      compilationScreen = display_laptop
+      if emacsCompilationTitle then
+         primaryEmacsLayout = hs.layout.left50
+         compilationEmacsLayout = hs.layout.right50
+      end
+      layout = {
          {"Google Chrome", nil,      display_laptop, hs.layout.maximized, nil, nil},
          {"HipChat",       nil,      display_laptop, bottomLeftFatRect, nil, nil},
          {"1Password 6",   nil,      display_laptop, hs.layout.maximized, nil, nil},
@@ -140,12 +152,15 @@ function build_layout(numberOfScreens)
          {"Evernote",      nil,      display_laptop, hs.layout.maximized, nil, nil},
          {"iTunes",        "iTunes", display_laptop, hs.layout.maximized, nil, nil},
          {"iTerm",         nil,      display_laptop, hs.layout.maximized, nil, nil},
-         {"Emacs",         nil,      display_laptop, hs.layout.left50, nil, nil},
-         {"Emacs",         "*rspec-compilation*",     display_laptop, hs.layout.right50, nil, nil},
          iTunesMiniPlayerLayout,
       }
    elseif numberOfScreens == 2 then
-      return {
+      compilationScreen = display_laptop
+      if emacsCompilationTitle then
+         primaryEmacsLayout = hs.layout.left50
+         compilationEmacsLayout = hs.layout.right50
+      end
+      layout = {
          {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect, nil, nil},
          {"1Password 6",   nil,      secondaryScreen, hs.layout.maximized, nil, nil},
@@ -155,40 +170,37 @@ function build_layout(numberOfScreens)
          {"Evernote",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          {"iTunes",        "iTunes", secondaryScreen, hs.layout.maximized, nil, nil},
          {"iTerm",         nil,      secondaryScreen, hs.layout.maximized, nil, nil},
-         {"Emacs",         nil,      primaryScreen,  hs.layout.left50, nil, nil},
-         {"Emacs",         "*rspec-compilation*",    primaryScreen, hs.layout.right50, nil, nil},
+         {"Dash",          nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          iTunesMiniPlayerLayout,
       }
    elseif numberOfScreens == 3 then
-      local layout = {
-         {"Google Chrome", nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
-         {"HipChat",       nil,                       secondaryScreen, bottomLeftFatRect,   nil, nil},
-         {"1Password 6",   nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
-         {"Calendar",      nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
-         {"Messages",      nil,                       secondaryScreen, topLeftRect,         nil, nil},
-         {"Slack",         nil,                       secondaryScreen, topRightFatRect,     nil, nil},
-         {"Evernote",      nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
-         {"iTunes",        "iTunes",                  secondaryScreen, hs.layout.maximized, nil, nil},
-         {"Emacs",         nil,                       primaryScreen,   hs.layout.maximized, nil, nil},
-         -- {"Emacs",         "*rspec-compilation*",     tertiaryScreen,  hs.layout.maximized, nil, nil},
-         {"iTerm",         nil,                       tertiaryScreen,  hs.layout.maximized, nil, nil},
+      layout = {
+         {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect,   nil, nil},
+         {"1Password 6",   nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Calendar",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Messages",      nil,      secondaryScreen, topLeftRect,         nil, nil},
+         {"Slack",         nil,      secondaryScreen, topRightFatRect,     nil, nil},
+         {"Evernote",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTunes",        "iTunes", secondaryScreen, hs.layout.maximized, nil, nil},
+         {"iTerm",         nil,      tertiaryScreen,  hs.layout.maximized, nil, nil},
+         {"Dash",          nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          iTunesMiniPlayerLayout,
       }
-      local devChromeTitle = find_active_window_title(chromeDevWindows)
-      local emacsCompilationTitle = find_active_window_title(emacsCompilationWindows)
       if devChromeTitle then
          table.insert(layout,
             {"Chrome", devChromeTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
          )
       end
-      if emacsCompilationTitle then
-         table.insert(layout,
-            {"Emacs", emacsCompilationTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
-         )
-      end
-      return layout
    end
+   table.insert(layout,
+      {"Emacs", nil, primaryScreen, primaryEmacsLayout, nil, nil}
+   )
+   table.insert(layout,
+      {"Emacs", emacsCompilationTitle, compilationScreen, compilationEmacsLayout, nil, nil}
+   )
 
+   return layout
 end
 
 function get_screens(numberOfScreens)
