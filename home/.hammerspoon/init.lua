@@ -53,7 +53,7 @@ local chromeDevWindows = {
 }
 
 local emacsCompilationWindows = {
-   "%*rspec-compilation%*"
+   "%*rspec%-compilation%*"
 }
 
 -- Defines for window maximize toggler
@@ -133,11 +133,10 @@ function build_layout(numberOfScreens)
    local layout = {}
    local devChromeTitle = find_active_window_title(chromeDevWindows)
    local emacsCompilationTitle = find_active_window_title(emacsCompilationWindows)
-   local compilationScreen
+   local compilationScreen = primaryScreen
    local primaryEmacsLayout = hs.layout.maximized
    local compilationEmacsLayout = hs.layout.maximized
    if numberOfScreens == 1 then
-      compilationScreen = display_laptop
       if emacsCompilationTitle then
          primaryEmacsLayout = hs.layout.left50
          compilationEmacsLayout = hs.layout.right50
@@ -155,7 +154,6 @@ function build_layout(numberOfScreens)
          iTunesMiniPlayerLayout,
       }
    elseif numberOfScreens == 2 then
-      compilationScreen = display_laptop
       if emacsCompilationTitle then
          primaryEmacsLayout = hs.layout.left50
          compilationEmacsLayout = hs.layout.right50
@@ -174,6 +172,7 @@ function build_layout(numberOfScreens)
          iTunesMiniPlayerLayout,
       }
    elseif numberOfScreens == 3 then
+      compilationScreen = tertiaryScreen
       layout = {
          {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect,   nil, nil},
@@ -196,9 +195,11 @@ function build_layout(numberOfScreens)
    table.insert(layout,
       {"Emacs", nil, primaryScreen, primaryEmacsLayout, nil, nil}
    )
-   table.insert(layout,
-      {"Emacs", emacsCompilationTitle, compilationScreen, compilationEmacsLayout, nil, nil}
-   )
+   if emacsCompilationTitle then
+      table.insert(layout,
+                   {"Emacs", emacsCompilationTitle, compilationScreen, compilationEmacsLayout, nil, nil}
+      )
+   end
 
    return layout
 end
