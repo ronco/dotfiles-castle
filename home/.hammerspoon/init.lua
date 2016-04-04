@@ -174,15 +174,15 @@ function build_layout(numberOfScreens)
          {"iTerm",         nil,                       tertiaryScreen,  hs.layout.maximized, nil, nil},
          iTunesMiniPlayerLayout,
       }
-      local devChromeTitle = find_active_window_title(chomeDevWindows)
+      local devChromeTitle = find_active_window_title(chromeDevWindows)
       local emacsCompilationTitle = find_active_window_title(emacsCompilationWindows)
       if devChromeTitle then
-         layout.insert(
+         table.insert(layout,
             {"Chrome", devChromeTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
          )
       end
       if emacsCompilationTitle then
-         layout.insert(
+         table.insert(layout,
             {"Emacs", emacsCompilationTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
          )
       end
