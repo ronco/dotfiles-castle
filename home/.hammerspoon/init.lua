@@ -367,8 +367,8 @@ function reloadConfig(paths)
 end
 
 -- Hotkeys to move windows between screens, retaining their position/size relative to the screen
--- hs.urlevent.bind('hyperfnleft', function() hs.window.focusedWindow():moveOneScreenWest() end)
--- hs.urlevent.bind('hyperfnright', function() hs.window.focusedWindow():moveOneScreenEast() end)
+hs.urlevent.bind('hyperoptionleft', function() hs.window.focusedWindow():moveOneScreenWest() end)
+hs.urlevent.bind('hyperoptionright', function() hs.window.focusedWindow():moveOneScreenEast() end)
 
 -- Hotkeys to resize windows absolutely
 hs.hotkey.bind(hyper, 'a', function() hs.window.focusedWindow():moveToUnit(hs.layout.left30) end)
@@ -411,7 +411,6 @@ hs.hotkey.bind(hyper, '0', function()
     print(screenWatcher)
     print(usbWatcher)
 end)
-
 
 -- Create and start our callbacks
 -- appWatcher = hs.application.watcher.new(applicationWatcher):start()
