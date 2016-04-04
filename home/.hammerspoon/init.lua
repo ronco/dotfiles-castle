@@ -414,6 +414,9 @@ hs.hotkey.bind(hyper, 't', function() toggle_application("iTerm") end)
 hs.hotkey.bind(hyper, 'e', function() toggle_application("Emacs") end)
 hs.hotkey.bind(hyper, 'q', function() toggle_application("Google Chrome") end)
 
+-- caffeinate hotkeys
+hs.urlevent.bind('hypershiftz', function() hs.caffeinate.startScreensaver() end)
+
 -- Misc hotkeys
 hs.hotkey.bind(hyper, 'y', hs.toggleConsole)
 hs.hotkey.bind(hyper, 'd', mouseHighlight)

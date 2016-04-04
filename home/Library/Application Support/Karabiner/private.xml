@@ -71,6 +71,20 @@
     </autogen>
   </item>
   <vkopenurldef>
+    <name>KeyCode::VK_OPEN_URL_HS_hypershiftz</name>
+    <url>hammerspoon://hypershiftz</url>
+    <background/>
+  </vkopenurldef>
+  <item>
+    <name>Hammerspoon hyper shift z</name>
+    <identifier>hammerspoon.hypershiftz</identifier>
+    <autogen>
+      --KeyToKey--
+      KeyCode::Z, ModifierFlag::COMMAND_R | ModifierFlag::OPTION_R | ModifierFlag::CONTROL_R | ModifierFlag::SHIFT_R | ModifierFlag::SHIFT_L,
+      KeyCode::VK_OPEN_URL_HS_hypershiftz
+    </autogen>
+  </item>
+  <vkopenurldef>
     <name>KeyCode::VK_OPEN_URL_HS_hyperoptionleft</name>
     <url>hammerspoon://hyperoptionleft</url>
     <background/>
