@@ -41,6 +41,21 @@ hs.grid.GRIDHEIGHT = 8
 hs.grid.MARGINX = 0
 hs.grid.MARGINY = 0
 
+-- Define dev windows to look for
+local chromeDevWindows = {
+   ".*- Ibotta%.com.*",
+   ".*Ibotta - Better than Coupons.*",
+   ".*IbottaWeb Tests.*",
+   ".*Partner Portal.*",
+   ".*Pp Tests.*",
+   ".*Ibotta Customer Support Tool.*",
+   ".*Cs Tests.*"
+}
+
+local emacsCompilationWindows = {
+   "%*rspec-compilation%*"
+}
+
 -- Defines for window maximize toggler
 local frameCache = {}
 
@@ -67,6 +82,17 @@ function debounce(func, wait, immediate)
      if timeout then timeout:stop() end
      timeout = hs.timer.doAfter(wait, later)
      if callNow then func() end
+   end
+end
+
+-- window finder
+
+function find_active_window_title(patterns)
+   for _,v in pairs(patterns) do
+      local win = hs.appfinder.windowFromWindowTitlePattern(v)
+      if win then
+         return win:title()
+      end
    end
 end
 
@@ -134,7 +160,7 @@ function build_layout(numberOfScreens)
          iTunesMiniPlayerLayout,
       }
    elseif numberOfScreens == 3 then
-      return {
+      local layout = {
          {"Google Chrome", nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
          {"HipChat",       nil,                       secondaryScreen, bottomLeftFatRect,   nil, nil},
          {"1Password 6",   nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
@@ -144,10 +170,23 @@ function build_layout(numberOfScreens)
          {"Evernote",      nil,                       secondaryScreen, hs.layout.maximized, nil, nil},
          {"iTunes",        "iTunes",                  secondaryScreen, hs.layout.maximized, nil, nil},
          {"Emacs",         nil,                       primaryScreen,   hs.layout.maximized, nil, nil},
-         {"Emacs",         "*rspec-compilation*",     tertiaryScreen,  hs.layout.maximized, nil, nil},
+         -- {"Emacs",         "*rspec-compilation*",     tertiaryScreen,  hs.layout.maximized, nil, nil},
          {"iTerm",         nil,                       tertiaryScreen,  hs.layout.maximized, nil, nil},
          iTunesMiniPlayerLayout,
       }
+      local devChromeTitle = find_active_window_title(chomeDevWindows)
+      local emacsCompilationTitle = find_active_window_title(emacsCompilationWindows)
+      if devChromeTitle then
+         layout.insert(
+            {"Chrome", devChromeTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
+         )
+      end
+      if emacsCompilationTitle then
+         layout.insert(
+            {"Emacs", emacsCompilationTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
+         )
+      end
+      return layout
    end
 
 end
