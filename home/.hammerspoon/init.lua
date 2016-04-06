@@ -1,4 +1,5 @@
 -- Based on https://raw.githubusercontent.com/cmsj/hammerspoon-config/master/init.lua
+-- see http://www.tenshu.net/p/fake-hyper-key-for-osx.html for hyper key setup
 
 -- Seed the RNG
 math.randomseed(os.time())

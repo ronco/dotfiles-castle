@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- see http://www.tenshu.net/p/fake-hyper-key-for-osx.html for hyper key setup-->
 <root>
   <item>
     <name>Remap F19 to Hyper</name>
