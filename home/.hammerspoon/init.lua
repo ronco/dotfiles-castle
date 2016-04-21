@@ -116,6 +116,16 @@ function find_screen(comparator, screens)
    end
 end
 
+-- toggle idden files
+function toggleHiddenFiles()
+    hidden_status = hs.execute("defaults read com.apple.finder AppleShowAllFiles")
+    if hidden_status:match("YES")  then
+        hs.execute("defaults write com.apple.finder AppleShowAllFiles NO; killall Finder")
+    else
+        hs.execute("defaults write com.apple.finder AppleShowAllFiles YES; killall Finder")
+    end
+end
+
 -- layout builder
 
 function build_layout(numberOfScreens)
@@ -428,6 +438,9 @@ hs.hotkey.bind(hyper, '0', function()
     print(screenWatcher)
     print(usbWatcher)
 end)
+
+-- toggle hidden files
+hs.hotkey.bind(hyper, "h", toggleHiddenFiles)
 
 -- Create and start our callbacks
 -- appWatcher = hs.application.watcher.new(applicationWatcher):start()
