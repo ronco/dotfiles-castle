@@ -432,6 +432,7 @@ hs.urlevent.bind('hypershiftz', function() hs.caffeinate.startScreensaver() end)
 -- Misc hotkeys
 hs.hotkey.bind(hyper, 'y', hs.toggleConsole)
 hs.hotkey.bind(hyper, 'd', mouseHighlight)
+hs.hotkey.bind(hyper, 'v', function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
 hs.hotkey.bind(hyper, '0', function()
     print(configFileWatcher)
     print(wifiWatcher)
