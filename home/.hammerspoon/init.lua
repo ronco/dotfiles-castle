@@ -57,6 +57,10 @@ local emacsCompilationWindows = {
    "%*rspec%-compilation%*"
 }
 
+local itermWindows = {
+   ".*iTerm.*"
+}
+
 -- Defines for window maximize toggler
 local frameCache = {}
 
@@ -144,6 +148,7 @@ function build_layout(numberOfScreens)
    local layout = {}
    local devChromeTitle = find_active_window_title(chromeDevWindows)
    local emacsCompilationTitle = find_active_window_title(emacsCompilationWindows)
+   local itermWindowTitle = find_active_window_title(itermWindows)
    local compilationScreen = primaryScreen
    local primaryEmacsLayout = hs.layout.maximized
    local compilationEmacsLayout = hs.layout.maximized
@@ -200,6 +205,11 @@ function build_layout(numberOfScreens)
       if devChromeTitle then
          table.insert(layout,
             {"Chrome", devChromeTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
+         )
+      end
+      if itermWindowTitle then
+         table.insert(layout,
+            {"iTerm", itermWindowTitle,     tertiaryScreen,  hs.layout.maximized, nil, nil}
          )
       end
    end
