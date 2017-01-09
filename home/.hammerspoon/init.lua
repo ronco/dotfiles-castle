@@ -190,12 +190,12 @@ function build_layout(numberOfScreens)
    elseif numberOfScreens == 3 then
       compilationScreen = tertiaryScreen
       layout = {
-         {"Google Chrome", nil,      secondaryScreen, hs.layout.maximized, nil, nil},
+         {"Google Chrome", nil,      primaryScreen, hs.layout.maximized, nil, nil},
          {"HipChat",       nil,      secondaryScreen, bottomLeftFatRect,   nil, nil},
          {"1Password 6",   nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          {"Calendar",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          {"Messages",      nil,      secondaryScreen, topLeftRect,         nil, nil},
-         {"Slack",         nil,      secondaryScreen, topRightFatRect,     nil, nil},
+         {"Slack",         nil,      secondaryScreen, hs.layout.maximized,     nil, nil},
          {"Evernote",      nil,      secondaryScreen, hs.layout.maximized, nil, nil},
          {"iTunes",        "iTunes", secondaryScreen, hs.layout.left75, nil, nil},
          {"iTerm",         nil,      tertiaryScreen,  hs.layout.maximized, nil, nil},
@@ -214,7 +214,7 @@ function build_layout(numberOfScreens)
       end
    end
    table.insert(layout,
-      {"Emacs", nil, primaryScreen, primaryEmacsLayout, nil, nil}
+      {"Emacs", nil, compilationScreen, primaryEmacsLayout, nil, nil}
    )
    if emacsCompilationTitle then
       table.insert(layout,
