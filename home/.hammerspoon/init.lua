@@ -401,8 +401,10 @@ function reloadConfig(paths)
 end
 
 -- Hotkeys to move windows between screens, retaining their position/size relative to the screen
-hs.urlevent.bind('hyperoptionleft', function() hs.window.focusedWindow():moveOneScreenWest() end)
-hs.urlevent.bind('hyperoptionright', function() hs.window.focusedWindow():moveOneScreenEast() end)
+-- hs.urlevent.bind('hyperoptionleft', function() hs.window.focusedWindow():moveOneScreenWest() end)
+-- hs.urlevent.bind('hyperoptionright', function() hs.window.focusedWindow():moveOneScreenEast() end)
+hs.hotkey.bind(hyper, 'Left', function() hs.window.focusedWindow():moveOneScreenWest() end)
+hs.hotkey.bind(hyper, 'Right', function() hs.window.focusedWindow():moveOneScreenEast() end)
 
 -- Hotkeys to resize windows absolutely
 hs.hotkey.bind(hyper, 'a', function() hs.window.focusedWindow():moveToUnit(hs.layout.left30) end)
@@ -420,16 +422,16 @@ hs.hotkey.bind(hyper, '2', function() setDisplayLayout(2) end)
 hs.hotkey.bind(hyper, '3', function() setDisplayLayout(3) end)
 
 -- Hotkeys to interact with the window grid
-hs.hotkey.bind(hyper, 'g', hs.grid.show)
-hs.hotkey.bind(hyper, 'Left', hs.grid.pushWindowLeft)
-hs.hotkey.bind(hyper, 'Right', hs.grid.pushWindowRight)
-hs.hotkey.bind(hyper, 'Up', hs.grid.pushWindowUp)
-hs.hotkey.bind(hyper, 'Down', hs.grid.pushWindowDown)
+-- hs.hotkey.bind(hyper, 'g', hs.grid.show)
+-- hs.hotkey.bind(hyper, 'Left', hs.grid.pushWindowLeft)
+-- hs.hotkey.bind(hyper, 'Right', hs.grid.pushWindowRight)
+-- hs.hotkey.bind(hyper, 'Up', hs.grid.pushWindowUp)
+-- hs.hotkey.bind(hyper, 'Down', hs.grid.pushWindowDown)
 
-hs.urlevent.bind('hypershiftleft', function() hs.grid.resizeWindowThinner(hs.window.focusedWindow()) end)
-hs.urlevent.bind('hypershiftright', function() hs.grid.resizeWindowWider(hs.window.focusedWindow()) end)
-hs.urlevent.bind('hypershiftup', function() hs.grid.resizeWindowShorter(hs.window.focusedWindow()) end)
-hs.urlevent.bind('hypershiftdown', function() hs.grid.resizeWindowTaller(hs.window.focusedWindow()) end)
+-- hs.urlevent.bind('hypershiftleft', function() hs.grid.resizeWindowThinner(hs.window.focusedWindow()) end)
+-- hs.urlevent.bind('hypershiftright', function() hs.grid.resizeWindowWider(hs.window.focusedWindow()) end)
+-- hs.urlevent.bind('hypershiftup', function() hs.grid.resizeWindowShorter(hs.window.focusedWindow()) end)
+-- hs.urlevent.bind('hypershiftdown', function() hs.grid.resizeWindowTaller(hs.window.focusedWindow()) end)
 
 -- Application hotkeys
 hs.hotkey.bind(hyper, 't', function() toggle_application("iTerm") end)
@@ -437,7 +439,8 @@ hs.hotkey.bind(hyper, 'e', function() toggle_application("Emacs") end)
 hs.hotkey.bind(hyper, 'q', function() toggle_application("Google Chrome") end)
 
 -- caffeinate hotkeys
-hs.urlevent.bind('hypershiftz', function() hs.caffeinate.startScreensaver() end)
+-- hs.urlevent.bind('hypershiftz', function() hs.caffeinate.startScreensaver() end)
+hs.hotkey.bind(hyper, 'z', function() hs.caffeinate.startScreensaver() end)
 
 -- Misc hotkeys
 hs.hotkey.bind(hyper, 'y', hs.toggleConsole)
