@@ -21,7 +21,7 @@ EDITOR='emacs'
 REPORTTIME=3 # display commands with execution time >= 3 seconds
 ZSH_CUSTOM=~/.oh-my-custom
 # ZSH_THEME='random'
-ZSH_THEME='rkj-repos'
+# ZSH_THEME='rkj-repos'
 if [[ -n ${INSIDE_EMACS} ]]; then
     # This shell runs inside an Emacs *shell*/*term* buffer.
     unsetopt zle
@@ -74,6 +74,12 @@ if ! zgen saved; then
 
     # completions
     zgen load zsh-users/zsh-completions src
+
+    # new prompt
+    zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
+
+    # iterm touchbar
+    zgen load iam4x/zsh-iterm-touchbar
 
     # save all to init script
     zgen save
