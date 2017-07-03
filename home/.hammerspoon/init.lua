@@ -30,7 +30,7 @@ local display_laptop = "Color LCD"
 local display_dell = "DELL U2415"
 
 -- Defines for WiFi watcher
-local homeSSID = "Whistello-5G" -- My home WiFi SSID
+local homeSSID = "Whistello" -- My home WiFi SSID
 local lastSSID = hs.wifi.currentNetwork()
 
 -- Defines for screen watcher
@@ -299,7 +299,8 @@ function usbDeviceCallback(data)
    if (data["productName"] == "USB 10/100/1000 LAN") then
       event = data["eventType"]
       if (event == "added") then
-         hs.wifi.setPower(false)
+         -- disabling this to get apple watch unlocking to work
+--         hs.wifi.setPower(false)
       elseif (event == "removed") then
          hs.wifi.setPower(true)
       end
