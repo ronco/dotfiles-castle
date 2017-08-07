@@ -163,7 +163,7 @@ function build_layout(numberOfScreens)
          {"1Password 6",   nil,      display_laptop, hs.layout.maximized, nil, nil},
          {"Calendar",      nil,      display_laptop, hs.layout.maximized, nil, nil},
          {"Messages",      nil,      display_laptop, topLeftRect, nil, nil},
-         {"Slack",         nil,      display_laptop, topRightFatRect, nil, nil},
+         {"Slack",         nil,      display_laptop, hs.layout.maximized, nil, nil},
          {"Evernote",      nil,      display_laptop, hs.layout.maximized, nil, nil},
          {"iTunes",        "iTunes", display_laptop, hs.layout.left75, nil, nil},
          {"iTerm",         nil,      display_laptop, hs.layout.maximized, nil, nil},
