@@ -94,6 +94,28 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:(hg*|git*):*' get-revision true
 zstyle ':vcs_info:(hg*|git*):*' check-for-changes true
 
+
+BULLETTRAIN_PROMPT_ORDER=(
+    time
+    status
+    custom
+    context
+    dir
+    screen
+    perl
+    ruby
+    virtualenv
+    conda
+    nvm
+    aws
+    go
+    rust
+    elixir
+    git
+    hg
+    cmd_exec_time
+)
+
 # Call vcs_info as precmd before every prompt.
 prompt_precmd() {
     vcs_info
@@ -105,6 +127,13 @@ prompt_chpwd() {
    FORCE_RUN_VCS_INFO=1
 }
 add-zsh-hook chpwd prompt_chpwd
+
+# Conda: current working env
+prompt_conda() {
+  if [[ -n $CONDA_DEFAULT_ENV && ! $CONDA_DEFAULT_ENV == 'base' ]]; then
+    prompt_segment $BULLETTRAIN_VIRTUALENV_BG $BULLETTRAIN_VIRTUALENV_FG $BULLETTRAIN_VIRTUALENV_PREFIX" $CONDA_DEFAULT_ENV"
+  fi
+}
 
 # -----------------------------------------------
 # nice login stuff
@@ -131,3 +160,18 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # [ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/ronco/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/ronco/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Users/ronco/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/ronco/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
