@@ -150,9 +150,9 @@ if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
   source `brew --prefix`/etc/profile.d/z.sh
 fi
 
-export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
-export AWS_REGION=$(aws configure get region)
+# export AWS_ACCESS_KEY_ID=$(aws configure get aws_access_key_id)
+# export AWS_SECRET_ACCESS_KEY=$(aws configure get aws_secret_access_key)
+# export AWS_REGION=$(aws configure get region)
 
 # NVM, why?
 export NVM_DIR="$HOME/.nvm"
