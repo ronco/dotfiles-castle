@@ -144,8 +144,6 @@ echo "------------------------"
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 
-[ -f /opt/boxen/env.sh ] && source /opt/boxen/env.sh
-
 if [ -f `brew --prefix`/etc/profile.d/z.sh ]; then
   source `brew --prefix`/etc/profile.d/z.sh
 fi
@@ -176,3 +174,4 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 export CDPATH="..:$CDPATH"
+export AIRFLOW_HOME=~/dev/airflow
