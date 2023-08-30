@@ -111,6 +111,7 @@ BULLETTRAIN_PROMPT_ORDER=(
     go
     rust
     elixir
+    phpbrew
     git
     hg
     cmd_exec_time
@@ -132,6 +133,15 @@ add-zsh-hook chpwd prompt_chpwd
 prompt_conda() {
   if [[ -n $CONDA_DEFAULT_ENV && ! $CONDA_DEFAULT_ENV == 'base' ]]; then
     prompt_segment $BULLETTRAIN_VIRTUALENV_BG $BULLETTRAIN_VIRTUALENV_FG $BULLETTRAIN_VIRTUALENV_PREFIX" $CONDA_DEFAULT_ENV"
+  fi
+}
+
+BULLETTRAIN_PHP_PREFIX=🐘
+
+# phpbrew: current working env
+prompt_phpbrew() {
+  if [[ -n $PHPBREW_PHP ]]; then
+    prompt_segment $BULLETTRAIN_PERL_BG $BULLETTRAIN_PERL_FG $BULLETTRAIN_PHP_PREFIX" $PHPBREW_PHP"
   fi
 }
 
@@ -159,6 +169,9 @@ export NVM_DIR="$HOME/.nvm"
 # [ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+#phpbrew
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/ronco/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -175,3 +188,5 @@ unset __conda_setup
 # <<< conda initialize <<<
 export CDPATH="..:$CDPATH"
 export AIRFLOW_HOME=~/dev/airflow
+export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
