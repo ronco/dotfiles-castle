@@ -94,6 +94,7 @@ zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:(hg*|git*):*' get-revision true
 zstyle ':vcs_info:(hg*|git*):*' check-for-changes true
 
+BULLETTRAIN_CONTEXT_DEFAULT_USER=ronco
 
 BULLETTRAIN_PROMPT_ORDER=(
     time
