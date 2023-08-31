@@ -186,7 +186,12 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
 export CDPATH="..:$CDPATH"
 export AIRFLOW_HOME=~/dev/airflow
 export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
+
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+
+alias usepyenv='eval "$(pyenv init --path)" && export PATH="~/.local/bin:$PATH"'
