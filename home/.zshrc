@@ -190,7 +190,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-export CDPATH="..:$CDPATH"
+export CDPATH="..:/Users/ronco/dev:$CDPATH"
 export AIRFLOW_HOME=~/dev/airflow
 
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
