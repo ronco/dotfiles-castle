@@ -170,6 +170,8 @@ export NVM_DIR="$HOME/.nvm"
 # [ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
 #phpbrew
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 
@@ -190,9 +192,7 @@ unset __conda_setup
 
 export CDPATH="..:$CDPATH"
 export AIRFLOW_HOME=~/dev/airflow
-export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
 
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
-alias usepyenv='eval "$(pyenv init --path)" && export PATH="~/.local/bin:$PATH"'
+alias usepyenv='eval "$(pyenv init --path)" && export PATH="/Users/ronco/.local/bin:$PATH"'
