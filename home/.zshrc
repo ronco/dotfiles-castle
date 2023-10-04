@@ -196,3 +196,8 @@ export AIRFLOW_HOME=~/dev/airflow
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
 alias usepyenv='eval "$(pyenv init --path)" && export PATH="/Users/ronco/.local/bin:$PATH"'
+
+# OCTAVIA CLI 0.44.4
+OCTAVIA_ENV_FILE=/Users/ronco/.octavia
+export OCTAVIA_ENABLE_TELEMETRY=True
+alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network host --env-file \${OCTAVIA_ENV_FILE} --user \$(id -u):\$(id -g) airbyte/octavia-cli:0.44.4"
