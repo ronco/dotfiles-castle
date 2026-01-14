@@ -164,11 +164,6 @@ fi
 # export AWS_REGION=$(aws configure get region)
 
 # NVM, why?
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-# [ -f $(brew --prefix nvm)/nvm.sh ] && source $(brew --prefix nvm)/nvm.sh
-#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 export PATH="/opt/homebrew/opt/php@8.0/bin:$PATH"
 export PATH="/opt/homebrew/opt/php@8.0/sbin:$PATH"
@@ -197,7 +192,22 @@ alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
 alias usepyenv='eval "$(pyenv init --path)" && export PATH="/Users/ronco/.local/bin:$PATH"'
 
+alias c='claude'
+alias cc='claude -c'
+alias cr='claude --resume'
+
 # OCTAVIA CLI 0.44.4
 OCTAVIA_ENV_FILE=/Users/ronco/.octavia
 export OCTAVIA_ENABLE_TELEMETRY=True
 alias octavia="docker run -i --rm -v \$(pwd):/home/octavia-project --network host --env-file \${OCTAVIA_ENV_FILE} --user \$(id -u):\$(id -g) airbyte/octavia-cli:0.44.4"
+
+# Liquibase
+LIQUIBASE_HOME=/opt/homebrew/opt/liquibase/libexec
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="$HOME/.local/bin:$PATH"
+
+# DAGs directory alias
+alias dags="cd ~/dev/datateam-dev-stack/aws-mwaa-local-runner/dags"
