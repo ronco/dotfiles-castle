@@ -96,3 +96,32 @@ When drafting PR descriptions or comments, match this style:
 - Use `python-dotenv` or similar to load credentials in scripts
 - Example: `load_dotenv(Path.home() / '.claude' / '.env')`
 - This keeps secrets out of project repositories and centralized for all projects
+
+# Team Members
+
+Use this table to look up GitHub usernames when adding PR reviewers by first name.
+
+| Name | GitHub |
+|------|--------|
+| Benjamin / Ben | @BenGiese22 |
+| Corbin | @cmckeonaa |
+| Dakota | @dakotawashok |
+| Daniel | @danielsballes |
+| Dylan | @dkreth |
+| Eduardo | @egonzalezfsl |
+| Emma | @EmmaWorthington235 |
+| Fabian | @cfabianleon |
+| Francisco | @paco22dt |
+| Lenin | @pylenin |
+| Luiz | @abbluiz |
+| Maria | @Alex23013 |
+| Micah | @micahwierenga |
+| Mitch | @mitchcarter21 |
+| Nick | @nhaynes |
+| Paul | @Exaper |
+| Quintin | @QSoto |
+| Simuel / Sim | @G00SE-EGG |
+| Stenyo | @stenyof |
+| Steven | @ambitionphp |
+| Tawni | @tawnimyers |
+| Yury | @yurykorzun |
