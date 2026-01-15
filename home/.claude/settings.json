@@ -3,5 +3,13 @@
     "type": "command",
     "command": "bash ~/.claude/scripts/context-bar.sh"
   },
-  "alwaysThinkingEnabled": true
+  "alwaysThinkingEnabled": true,
+  "enabledPlugins": {
+    "github@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "aws-iac@claude-plugins-official": true,
+    "aws-documentation@claude-plugins-official": true,
+    "datadog@claude-plugins-official": true,
+    "google-calendar@claude-plugins-official": true
+  }
 }
