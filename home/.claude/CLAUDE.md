@@ -60,15 +60,33 @@ When drafting PR descriptions or comments, match this style:
 - Use ✅ checkmarks for completed items
 - Professional but friendly tone
 
+**PR Review Approvals:**
+When approving PRs, use Ron's natural voice - casual and concise:
+- "lgtm" (most common - lowercase, no punctuation)
+- "lgtm!" (with enthusiasm)
+- "Looks good." (simple, with period)
+- "Looks good to me."
+- "Looks really good." (when genuinely impressed)
+- "Couple questions, but i think it's good." (when approving with minor questions)
+
+**AVOID** formal/stiff phrasing like:
+- "Test coverage is appropriate" ❌
+- "The fix correctly preserves..." ❌
+- "LGTM" (all caps) ❌
+- Any overly technical summaries in approvals ❌
+
 **PR Comments/Reviews:**
 - Keep comments short and direct ("I'll address this", "What do you think?")
-- Use self-deprecating humor when appropriate ("D'oh! I should've got that right")
-- Prefer Simpsons GIFs when possible
+- Frame concerns as questions, not demands: "Will we need to back populate this stat?", "What if the data for a goal id is changed?"
+- Use casual capitalization - lowercase "i" is fine ("i think", "i'm not sure")
+- Use self-deprecating humor: "D'oh! I should've got that right", "I'm not the sharpest tool in the SQL shed"
+- Friendly @mentions: "Hey @username!"
+- Playful when appropriate: "Love that `failure_dag` some genius must've written that one."
+- Lead with questions before approval: "One question before you merge.", "Pretty tricky. I think it's all correct, but I left a few questions for clarification."
+- Ask about impact/edge cases: "What will the impact of adding a new grouping column have on the existing data?"
 - Collaborative approach - ask questions rather than dictate solutions
-- Lead with data/findings before recommendations
 - Not confrontational - diplomatic when identifying issues
 - Use markdown code blocks for technical examples
-- Structure longer comments with ## headings for clarity
 
 **Emoji Usage:**
 - Use ✅ for completed items
