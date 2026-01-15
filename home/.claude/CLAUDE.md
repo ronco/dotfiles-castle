@@ -115,6 +115,95 @@ When approving PRs, use Ron's natural voice - casual and concise:
 - Example: `load_dotenv(Path.home() / '.claude' / '.env')`
 - This keeps secrets out of project repositories and centralized for all projects
 
+# MCP Server Configuration
+
+## Enabled Plugins
+The following MCP servers are enabled via `settings.json`:
+- **GitHub** - Repository management, PRs, issues (Docker-based, uses PAT)
+- **Playwright** - Browser automation
+- **AWS IaC** - CloudFormation/CDK validation and best practices
+- **AWS Documentation** - Access to AWS docs
+- **Datadog** - Metrics, logs, monitors, dashboards
+- **Google Calendar** - Event management
+
+## Required Credentials
+Store these in `~/.claude/.env`:
+```bash
+# GitHub - create at https://github.com/settings/tokens?type=beta
+# Scopes: Contents, Issues, Pull requests (Read and write)
+GITHUB_PERSONAL_ACCESS_TOKEN=github_pat_xxx
+
+# Datadog - from Datadog org settings
+DD_API_KEY=xxx
+DD_APP_KEY=xxx
+DD_SITE=datadoghq.com
+```
+
+For Google Calendar, place OAuth credentials at `~/.claude/google-calendar-oauth.json`
+
+## Recreating Plugin Configs
+If plugin configs get wiped (they live in a managed Anthropic repo), recreate with:
+
+**GitHub** (`external_plugins/github/.mcp.json`):
+```json
+{
+  "github": {
+    "command": "docker",
+    "args": ["run", "-i", "--rm", "-e", "GITHUB_PERSONAL_ACCESS_TOKEN", "ghcr.io/github/github-mcp-server"],
+    "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}" }
+  }
+}
+```
+
+**AWS IaC** (`external_plugins/aws-iac/.mcp.json`):
+```json
+{
+  "aws-iac": {
+    "command": "/Users/ronco/.local/bin/uvx",
+    "args": ["awslabs.aws-iac-mcp-server@latest"],
+    "env": { "FASTMCP_LOG_LEVEL": "ERROR", "AWS_PROFILE": "${AWS_PROFILE:-default}" }
+  }
+}
+```
+
+**AWS Documentation** (`external_plugins/aws-documentation/.mcp.json`):
+```json
+{
+  "aws-documentation": {
+    "command": "/Users/ronco/.local/bin/uvx",
+    "args": ["awslabs.aws-documentation-mcp-server@latest"],
+    "env": { "FASTMCP_LOG_LEVEL": "ERROR" }
+  }
+}
+```
+
+**Datadog** (`external_plugins/datadog/.mcp.json`):
+```json
+{
+  "datadog": {
+    "command": "npx",
+    "args": ["-y", "@winor30/mcp-server-datadog"],
+    "env": { "DATADOG_API_KEY": "${DD_API_KEY}", "DATADOG_APP_KEY": "${DD_APP_KEY}", "DATADOG_SITE": "${DD_SITE:-datadoghq.com}" }
+  }
+}
+```
+
+**Google Calendar** (`external_plugins/google-calendar/.mcp.json`):
+```json
+{
+  "google-calendar": {
+    "command": "npx",
+    "args": ["@cocal/google-calendar-mcp"],
+    "env": { "GOOGLE_OAUTH_CREDENTIALS": "${HOME}/.claude/google-calendar-oauth.json" }
+  }
+}
+```
+
+## Dependencies
+- **Docker** - Required for GitHub MCP
+- **uvx** - Install with `curl -LsSf https://astral.sh/uv/install.sh | sh` (installs to `~/.local/bin`)
+- **npx** - Comes with Node.js
+
 # Team Members
 
 Use this table to look up GitHub usernames when adding PR reviewers by first name.
