@@ -5,6 +5,7 @@ Find and review all PRs where I'm a requested reviewer.
 ## Arguments
 
 - `$ARGUMENTS` - Optional: GitHub org names to search (space-separated). If not provided, will prompt for orgs.
+  - Add `--include-drafts` to include draft PRs in the review list.
 
 ## Instructions
 
@@ -16,6 +17,22 @@ Find and review all PRs where I'm a requested reviewer.
    ```
 
    If `$ARGUMENTS` contains org names, use those. Otherwise, ask the user which orgs to search.
+
+   **Filter out already-approved PRs and drafts**: For each PR found, check if the user has already approved it or if it's a draft:
+   ```bash
+   gh pr view <number> --repo <owner/repo> --json reviews,isDraft --jq '{isDraft: .isDraft, approved: [.reviews[] | select(.author.login == "<username>" and .state == "APPROVED")] | length > 0}'
+   ```
+
+   Get the current user's GitHub username with:
+   ```bash
+   gh api user --jq '.login'
+   ```
+
+   Exclude any PRs where:
+   - The user has already submitted an approval
+   - The PR is a draft (unless the user explicitly asks to include drafts)
+
+   This handles the case where someone is still listed as a requested reviewer even after approving, and avoids reviewing PRs that aren't ready yet.
 
 2. **Summarize the results**
 
@@ -71,7 +88,7 @@ Find and review all PRs where I'm a requested reviewer.
 
 5. **Handle special cases**
 
-   - **Draft PRs**: Note they're drafts and offer to skip
+   - **Draft PRs**: Filtered out by default. Only included if `--include-drafts` is passed
    - **Stale PRs**: Note if a PR has been open for a long time
    - **CI failures**: Check if failures are related to the PR changes
    - **Stacked PRs**: Note if a PR targets a non-main branch
