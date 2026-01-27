@@ -4,7 +4,7 @@ Find and review all PRs where I'm a requested reviewer.
 
 ## Arguments
 
-- `$ARGUMENTS` - Optional: GitHub org names to search (space-separated). If not provided, will prompt for orgs.
+- `$ARGUMENTS` - Optional: GitHub org names to search (space-separated). Defaults to `AdAction AdGem` if not provided.
   - Add `--include-drafts` to include draft PRs in the review list.
 
 ## Instructions
@@ -16,7 +16,7 @@ Find and review all PRs where I'm a requested reviewer.
    gh search prs --review-requested=@me --state=open --owner=<ORG> --json repository,title,url,number,author,createdAt
    ```
 
-   If `$ARGUMENTS` contains org names, use those. Otherwise, ask the user which orgs to search.
+   If `$ARGUMENTS` contains org names (excluding flags like `--include-drafts`), use those. Otherwise, default to searching `AdAction` and `AdGem` orgs.
 
    **Filter out already-approved PRs and drafts**: For each PR found, check if the user has already approved it or if it's a draft:
    ```bash
