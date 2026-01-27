@@ -1,6 +1,6 @@
 ---
 description: Create a pull request with a GIF
-allowed-tools: Bash(git *), Bash(gh *)
+allowed-tools: Bash(git *), Bash(gh *), mcp__atlassian__getTransitionsForJiraIssue, mcp__atlassian__transitionJiraIssue
 ---
 
 Create a pull request for the current branch. Follow these steps:
@@ -32,3 +32,11 @@ EOF
 ```
 
 Replace GIF_URL_HERE with the URL I provide.
+
+6. After creating the PR, check if the branch name or PR title contains a Jira ticket ID (pattern like `AGPI-1234`, `AG-123`, `AI-456`, etc.)
+7. If a Jira ticket is found, transition it to "Code Review" status:
+   - Use cloudId: `d3313118-d3da-4712-bbac-77c0c26c7053`
+   - First call `mcp__atlassian__getTransitionsForJiraIssue` to get available transitions
+   - Find the transition where the name contains "code review" (case-insensitive)
+   - Call `mcp__atlassian__transitionJiraIssue` with the found transition ID
+   - Report success or failure of the transition to the user
