@@ -1,24 +1,36 @@
 # Review PRs
 
-Find and review all PRs where I'm a requested reviewer.
+Find and review PRs across specified GitHub organizations.
 
 ## Arguments
 
 - `$ARGUMENTS` - Optional: GitHub org names to search (space-separated). Defaults to `AdAction AdGem` if not provided.
-  - Add `--include-drafts` to include draft PRs in the review list.
+  - `--all` - Review all open PRs in the orgs, not just ones where you're a requested reviewer
+  - `--include-drafts` - Include draft PRs in the review list
+  - `--include-stale` - Include stale PRs (only relevant with `--all`)
 
 ## Instructions
 
 1. **Find PRs awaiting review**
 
-   Search for open PRs where the user is a requested reviewer using the `gh` CLI:
+   Parse flags from `$ARGUMENTS`:
+   - `--all` flag: search all open PRs instead of just review-requested
+   - `--include-drafts` flag: include draft PRs
+   - `--include-stale` flag: include stale PRs (default is to skip them when using `--all`)
+   - Remaining arguments are org names (default to `AdAction` and `AdGem`)
+
+   Search for open PRs using the `gh` CLI:
    ```bash
-   gh search prs --review-requested=@me --state=open --owner=<ORG> --json repository,title,url,number,author,createdAt
+   # Default: PRs where user is requested reviewer
+   gh search prs --review-requested=@me --state=open --owner=<ORG> --json repository,title,url,number,author,createdAt,updatedAt
+
+   # With --all: All open PRs in the org
+   gh search prs --state=open --owner=<ORG> --json repository,title,url,number,author,createdAt,updatedAt
    ```
 
-   If `$ARGUMENTS` contains org names (excluding flags like `--include-drafts`), use those. Otherwise, default to searching `AdAction` and `AdGem` orgs.
+   If `$ARGUMENTS` contains org names (excluding flags), use those. Otherwise, default to searching `AdAction` and `AdGem` orgs.
 
-   **Filter out already-approved PRs and drafts**: For each PR found, check if the user has already approved it or if it's a draft:
+   **Filter out already-approved PRs, drafts, and stale PRs**: For each PR found, check status:
    ```bash
    gh pr view <number> --repo <owner/repo> --json reviews,isDraft --jq '{isDraft: .isDraft, approved: [.reviews[] | select(.author.login == "<username>" and .state == "APPROVED")] | length > 0}'
    ```
@@ -30,9 +42,16 @@ Find and review all PRs where I'm a requested reviewer.
 
    Exclude any PRs where:
    - The user has already submitted an approval
-   - The PR is a draft (unless the user explicitly asks to include drafts)
+   - The PR is a draft (unless `--include-drafts` is passed)
+   - **When using `--all`**:
+     - The PR was authored by the current user (can't review your own PRs)
+     - The PR is stale (unless `--include-stale` is passed)
 
-   This handles the case where someone is still listed as a requested reviewer even after approving, and avoids reviewing PRs that aren't ready yet.
+   **Staleness definition**: A PR is considered stale if:
+   - It was last updated more than 14 days ago, OR
+   - It has been open for more than 30 days with no reviews
+
+   This handles the case where someone is still listed as a requested reviewer even after approving, and avoids reviewing PRs that aren't ready yet or have been abandoned.
 
 2. **Summarize the results**
 
@@ -89,9 +108,10 @@ Find and review all PRs where I'm a requested reviewer.
 5. **Handle special cases**
 
    - **Draft PRs**: Filtered out by default. Only included if `--include-drafts` is passed
-   - **Stale PRs**: Note if a PR has been open for a long time
+   - **Stale PRs**: When using `--all`, stale PRs are filtered out by default. Only included if `--include-stale` is passed. When reviewing assigned PRs (default mode), stale PRs are still shown but flagged prominently
    - **CI failures**: Check if failures are related to the PR changes
    - **Stacked PRs**: Note if a PR targets a non-main branch
+   - **Your own PRs**: When using `--all`, skip PRs authored by the current user
 
 6. **Wrap up**
 
