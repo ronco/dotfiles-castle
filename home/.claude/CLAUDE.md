@@ -28,6 +28,14 @@ When drafting Architecture Decision Records (ADRs) or other documentation:
 - This ensures a clean starting point and avoids accidentally including commits from the current branch
 - We practice trunk-based development, so all branches should start from main
 
+## Keeping Local Main in Sync
+Ron prefers local `main` to always mirror `origin/main` automatically. He rarely interacts with the local main branch directly.
+- **`git maintenance`** is enabled globally for background hourly prefetch (keeps `origin/main` fresh)
+- **Global git alias** `git sync-main` force-updates local main: `git fetch origin main:main || git branch -f main origin/main`
+- **Claude Code hook** (`~/.claude/hooks/sync-main-on-pr.sh`) auto-syncs local main before any `gh pr` command
+- When possible, sync local main before operations that compare against it (e.g., PR reviews, diffing)
+- **After cloning a new repo**, always run `git maintenance start` to register it for background prefetch
+
 ## Branch Naming
 - Always prefix branch names with `ronco/` (e.g., `ronco/feature-name`, `ronco/fix-bug`)
 
@@ -125,6 +133,7 @@ The following MCP servers are enabled via `settings.json`:
 - **AWS Documentation** - Access to AWS docs
 - **Datadog** - Metrics, logs, monitors, dashboards
 - **Google Calendar** - Event management
+- **Google Docs** - Google Docs, Sheets, and Drive access
 
 ## Required Credentials
 Store these in `~/.claude/.env`:
@@ -140,6 +149,8 @@ DD_SITE=datadoghq.com
 ```
 
 For Google Calendar, place OAuth credentials at `~/.claude/google-calendar-oauth.json`
+
+For Google Docs, OAuth credentials and token are stored in `~/.claude/mcp-servers/google-docs-mcp/` (see setup instructions below)
 
 ## Recreating Plugin Configs
 If plugin configs get wiped (they live in a managed Anthropic repo), recreate with:
@@ -198,6 +209,30 @@ If plugin configs get wiped (they live in a managed Anthropic repo), recreate wi
   }
 }
 ```
+
+**Google Docs** (`external_plugins/google-docs/.mcp.json`):
+```json
+{
+  "google-docs": {
+    "command": "node",
+    "args": ["/Users/ronco/.claude/mcp-servers/google-docs-mcp/dist/server.js"],
+    "env": {}
+  }
+}
+```
+
+Setup requires cloning and building the server first:
+```bash
+git clone https://github.com/a-bonus/google-docs-mcp.git ~/.claude/mcp-servers/google-docs-mcp
+cd ~/.claude/mcp-servers/google-docs-mcp
+npm install && npm run build
+```
+
+Then configure Google OAuth:
+1. Enable Google Docs API, Sheets API, and Drive API in [Google Cloud Console](https://console.cloud.google.com/)
+2. Create OAuth credentials (Desktop app) and download as `credentials.json`
+3. Place `credentials.json` in `~/.claude/mcp-servers/google-docs-mcp/`
+4. Run `node ./dist/server.js` once to complete OAuth flow and generate `token.json`
 
 ## Dependencies
 - **Docker** - Required for GitHub MCP
