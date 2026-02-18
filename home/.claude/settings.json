@@ -1,17 +1,4 @@
 {
-  "statusLine": {
-    "type": "command",
-    "command": "bash ~/.claude/scripts/context-bar.sh"
-  },
-  "enabledPlugins": {
-    "github@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true,
-    "aws-iac@claude-plugins-official": true,
-    "aws-documentation@claude-plugins-official": true,
-    "datadog@claude-plugins-official": true,
-    "google-calendar@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
   "hooks": {
     "PreToolUse": [
       {
@@ -25,5 +12,18 @@
         ]
       }
     ]
-  }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/scripts/context-bar.sh"
+  },
+  "enabledPlugins": {
+    "github@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "aws-iac@claude-plugins-official": true,
+    "aws-documentation@claude-plugins-official": true,
+    "datadog@claude-plugins-official": true,
+    "google-calendar@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true
 }
