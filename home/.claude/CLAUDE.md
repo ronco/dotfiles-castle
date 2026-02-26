@@ -96,6 +96,14 @@ When approving PRs, use Ron's natural voice - casual and concise:
 - Not confrontational - diplomatic when identifying issues
 - Use markdown code blocks for technical examples
 
+**General Writing Tone (docs, guidelines, internal comms):**
+- Ron's voice is diplomatic and collaborative, not blunt or assertive
+- When identifying problems or anti-patterns, frame them constructively - explain *why* something doesn't fit rather than calling it out harshly
+- Avoid language that singles out specific people or teams as negative examples (e.g., "zero actionable information" about someone's update)
+- Prefer "this works better in X context" over "this is wrong"
+- It's fine to be direct, but always pair criticism with the reasoning and keep it respectful
+- Think "coaching" not "grading"
+
 **Emoji Usage:**
 - Use ✅ for completed items
 - Use checkboxes for action items
@@ -250,7 +258,7 @@ Use this table to look up GitHub usernames when adding PR reviewers by first nam
 | Dakota | @dakotawashok |
 | Daniel | @danielsballes |
 | Dylan | @dkreth |
-| Eduardo | @egonzalezfsl |
+| Eduardo / Victor | @egonzalezfsl |
 | Emma | @EmmaWorthington235 |
 | Fabian | @cfabianleon |
 | Francisco | @paco22dt |
