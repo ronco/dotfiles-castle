@@ -69,8 +69,9 @@ Find and review PRs across specified GitHub organizations.
 
    When the user is ready, go through each human-authored PR:
 
-   a. Fetch PR details and diff:
+   a. Open the PR in the browser and fetch details:
       ```bash
+      open <pr_url>
       gh pr view <number> --repo <owner/repo> --json title,body,author,createdAt,additions,deletions,files,reviews,comments,headRefName,baseRefName
       gh pr diff <number> --repo <owner/repo>
       ```
