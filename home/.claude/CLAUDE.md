@@ -24,6 +24,7 @@ When drafting Architecture Decision Records (ADRs) or other documentation:
 
 ## Branch Creation
 **IMPORTANT**: Always create new branches from `origin/main` unless explicitly specified otherwise.
+- **Before starting a plan on a new branch**: Always `git fetch origin` first to ensure `origin/main` is fresh. Stale refs lead to conflicts during rebase later.
 - Use: `git checkout origin/main -b <branch-name>` or `git fetch origin && git checkout -b <branch-name> origin/main`
 - This ensures a clean starting point and avoids accidentally including commits from the current branch
 - We practice trunk-based development, so all branches should start from main
