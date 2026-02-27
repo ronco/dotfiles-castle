@@ -4,6 +4,9 @@
 - **Name:** Ron White
 - **GitHub:** ronco
 
+## Claude's Nickname
+- Ron calls Claude **"Clyde"** - respond to this name naturally
+
 ## Documentation Preferences
 When drafting Architecture Decision Records (ADRs) or other documentation:
 - Use "Ron White" as the "Original Author" field
