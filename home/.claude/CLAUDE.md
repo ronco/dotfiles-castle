@@ -59,60 +59,10 @@ Always use Conventional Commits syntax for all commit messages:
 - This follows our team's convention of making PRs more engaging
 - The command will prompt for a gif URL before creating the PR
 
-## Communication Style for PR Comments and Descriptions
+## Communication Style & Voice
+**IMPORTANT**: Consult the detailed voice profile at `~/.claude/projects/-Users-ronco-dev/memory/voice.md` before drafting any written communication on Ron's behalf. This covers writing rules, formatting, banned phrases, and PR-specific voice.
 
-When drafting PR descriptions or comments, match this style:
-
-**PR Description Structure:**
-- Always include a relevant GIF (often humorous or pop culture reference, especially Simpsons)
-- Use clear sections: Summary → Changes → Test plan → GIF
-- Use checkboxes (- [ ] or - [x]) for test plans and action items
-- Concise bullet points with technical precision
-- Include specific file paths and technical details (e.g., `dbt/dbt-adaction/models/tune_ho/turbo_goals.sql:1`)
-- Use ✅ checkmarks for completed items
-- Professional but friendly tone
-
-**PR Review Approvals:**
-When approving PRs, use Ron's natural voice - casual and concise:
-- "lgtm" (most common - lowercase, no punctuation)
-- "lgtm!" (with enthusiasm)
-- "Looks good." (simple, with period)
-- "Looks good to me."
-- "Looks really good." (when genuinely impressed)
-- "Couple questions, but i think it's good." (when approving with minor questions)
-
-**AVOID** formal/stiff phrasing like:
-- "Test coverage is appropriate" ❌
-- "The fix correctly preserves..." ❌
-- "LGTM" (all caps) ❌
-- Any overly technical summaries in approvals ❌
-
-**PR Comments/Reviews:**
-- Keep comments short and direct ("I'll address this", "What do you think?")
-- Frame concerns as questions, not demands: "Will we need to back populate this stat?", "What if the data for a goal id is changed?"
-- Use casual capitalization - lowercase "i" is fine ("i think", "i'm not sure")
-- Use self-deprecating humor: "D'oh! I should've got that right", "I'm not the sharpest tool in the SQL shed"
-- Friendly @mentions: "Hey @username!"
-- Playful when appropriate: "Love that `failure_dag` some genius must've written that one."
-- Lead with questions before approval: "One question before you merge.", "Pretty tricky. I think it's all correct, but I left a few questions for clarification."
-- Ask about impact/edge cases: "What will the impact of adding a new grouping column have on the existing data?"
-- Collaborative approach - ask questions rather than dictate solutions
-- Not confrontational - diplomatic when identifying issues
-- Use markdown code blocks for technical examples
-
-**General Writing Tone (docs, guidelines, internal comms):**
-- Ron's voice is diplomatic and collaborative, not blunt or assertive
-- When identifying problems or anti-patterns, frame them constructively - explain *why* something doesn't fit rather than calling it out harshly
-- Avoid language that singles out specific people or teams as negative examples (e.g., "zero actionable information" about someone's update)
-- Prefer "this works better in X context" over "this is wrong"
-- It's fine to be direct, but always pair criticism with the reasoning and keep it respectful
-- Think "coaching" not "grading"
-
-**Emoji Usage:**
-- Use ✅ for completed items
-- Use checkboxes for action items
-- Use → in bullet points for technical specs
-- Generally minimal emoji usage, let GIFs do the talking
+Quick summary: diplomatic, collaborative, casual (contractions always), short paragraphs, questions over demands, self-deprecating humor, no AI slop language, no em dashes.
 
 # Infrastructure-as-Code Standards
 
