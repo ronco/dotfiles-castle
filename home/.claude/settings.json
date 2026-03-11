@@ -23,7 +23,8 @@
     "aws-iac@claude-plugins-official": true,
     "aws-documentation@claude-plugins-official": true,
     "datadog@claude-plugins-official": true,
-    "google-calendar@claude-plugins-official": true
+    "google-calendar@claude-plugins-official": true,
+    "superpowers@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true
 }
