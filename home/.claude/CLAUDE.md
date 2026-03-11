@@ -60,7 +60,7 @@ Always use Conventional Commits syntax for all commit messages:
 - The command will prompt for a gif URL before creating the PR
 
 ## Communication Style & Voice
-**IMPORTANT**: Consult the detailed voice profile at `~/.claude/projects/-Users-ronco-dev/memory/voice.md` before drafting any written communication on Ron's behalf. This covers writing rules, formatting, banned phrases, and PR-specific voice.
+**IMPORTANT**: Consult the detailed voice profile at `~/.claude/voice.md` before drafting any written communication on Ron's behalf. This covers writing rules, formatting, banned phrases, and PR-specific voice.
 
 Quick summary: diplomatic, collaborative, casual (contractions always), short paragraphs, questions over demands, self-deprecating humor, no AI slop language, no em dashes.
 
@@ -75,6 +75,13 @@ Quick summary: diplomatic, collaborative, casual (contractions always), short pa
 ## Testing
 - **Framework:** Always use PyTest over UnitTest for all Python testing
 - Use pytest fixtures, parametrize, and other pytest-specific features when appropriate
+
+# UI Development Preferences
+
+## Visual Verification
+- **Always include Playwright visual verification** in UI implementation plans as a step before PR creation
+- Serve the built site and use Playwright to snapshot/verify UI changes (sidebar, navbar, dropdowns, layout, etc.)
+- Don't rely solely on `npm run build` passing — actually look at the rendered result
 
 # Environment and Secrets Management
 
