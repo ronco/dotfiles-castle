@@ -236,3 +236,11 @@ Use this table to look up GitHub usernames when adding PR reviewers by first nam
 | Steven | @ambitionphp |
 | Tawni | @tawnimyers |
 | Yury | @yurykorzun |
+
+# Research & Analysis Session Preservation
+
+When a session involves significant research, analysis, or investigation (not just code changes), proactively save the key findings to `~/dev/notes/<topic>.md` before the session ends. Include date, session ID, project, and key findings in the file. Then save a reference memory entry in the `~/dev` project scope pointing to the file.
+
+This applies to: integration analysis, architecture investigations, vendor API reviews, resourcing specs, trade-off analyses, etc. Does NOT apply to routine coding sessions where the output is in git.
+
+When searching for past research, check `~/dev` project memory first, then `~/dev/notes/`, then session logs as a last resort.
