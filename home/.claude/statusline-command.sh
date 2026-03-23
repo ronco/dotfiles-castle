@@ -284,11 +284,26 @@ fi
 if [ -f "$quote_cache" ]; then
     q=$(cat "$quote_cache")
     src=$(cat "${quote_cache}_source" 2>/dev/null)
-    # Truncate if too long
-    if [ ${#q} -gt 90 ]; then
-        q="${q:0:87}..."
+    # Wrap quote across two lines (max ~90 chars per line)
+    max_width=90
+    if [ ${#q} -le $max_width ]; then
+        quote_line="${MAG}✦${RST} ${DIM}${q}${RST}"
+        quote_line2="${DIM} ${RST}"
+    else
+        # Find a space near the max_width to break on
+        left="${q:0:$max_width}"
+        # Find last space in left portion
+        break_at=$(echo "$left" | awk '{for(i=length;i>0;i--) if(substr($0,i,1)==" ") {print i; exit}}')
+        if [ -n "$break_at" ] && [ "$break_at" -gt 20 ]; then
+            line1="${q:0:$((break_at-1))}"
+            line2="${q:$break_at}"
+        else
+            line1="$left"
+            line2="${q:$max_width}"
+        fi
+        quote_line="${MAG}✦${RST} ${DIM}${line1}${RST}"
+        quote_line2="  ${DIM}${line2}${RST}"
     fi
-    quote_line="${MAG}✦${RST} ${DIM}${q}${RST}"
 fi
 
 # --- Line 1: Dense summary (shown even on initial session render) ------
@@ -325,4 +340,5 @@ summary+=" ${sep} ${ORG}◆${RST} ${BOLD}Mem:${RST} ${LMAG}${mem_count}${RST}${D
     [ -n "$ctx_line" ] && printf "%s\n" "$ctx_line"
     printf "%s\n" "$sparkline"
     [ -n "$quote_line" ] && printf "%s\n" "$quote_line"
+    [ -n "$quote_line2" ] && printf "%s\n" "$quote_line2"
 } | tee "$FULL_CACHE"
