@@ -8,6 +8,20 @@
             "type": "command",
             "command": "~/.claude/hooks/sync-main-on-pr.sh",
             "statusMessage": "Syncing local main with origin"
+          },
+          {
+            "type": "command",
+            "command": "dippy"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "claude-code-notification --sound Submarine"
           }
         ]
       }

@@ -237,6 +237,14 @@ Use this table to look up GitHub usernames when adding PR reviewers by first nam
 | Tawni | @tawnimyers |
 | Yury | @yurykorzun |
 
+# Context Compaction
+
+When compacting context, always preserve:
+- The full list of files modified in this session
+- Any test commands and their most recent pass/fail status
+- The current task description and progress
+- Key decisions made and their rationale
+
 # Research & Analysis Session Preservation
 
 When a session involves significant research, analysis, or investigation (not just code changes), proactively save the key findings to `~/dev/notes/<topic>.md` before the session ends. Include date, session ID, project, and key findings in the file. Then save a reference memory entry in the `~/dev` project scope pointing to the file.
