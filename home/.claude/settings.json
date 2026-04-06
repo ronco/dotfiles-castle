@@ -49,7 +49,17 @@
     "aws-documentation@claude-plugins-official": true,
     "datadog@claude-plugins-official": true,
     "google-calendar@claude-plugins-official": true,
-    "superpowers@claude-plugins-official": true
+    "superpowers@claude-plugins-official": true,
+    "elements-of-style@superpowers-marketplace": true,
+    "episodic-memory@superpowers-marketplace": true
+  },
+  "extraKnownMarketplaces": {
+    "superpowers-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers-marketplace"
+      }
+    }
   },
   "alwaysThinkingEnabled": true
 }
