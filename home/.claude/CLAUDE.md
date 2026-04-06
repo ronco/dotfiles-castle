@@ -64,7 +64,8 @@ Ron prefers local `main` to always mirror `origin/main` automatically. He rarely
 ## Commit Messages
 Always use Conventional Commits syntax for all commit messages:
 - Format: `<type>(<scope>): <description>`
-- Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert
+- Types: feat, fix, docs, style, refactor, test, perf, ci, build, revert
+- **Note:** `chore` is NOT a valid type in this org — use `ci` or `build` instead
 - Scope is optional but recommended when applicable
 - Example: `feat(auth): add OAuth2 login support`
 - Keep subject line under 50 characters
