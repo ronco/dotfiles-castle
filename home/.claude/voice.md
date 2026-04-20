@@ -80,6 +80,11 @@ Casual by default. Contractions always. Professional when context calls for it, 
 - "LGTM" (all caps; use lowercase "lgtm")
 - Overly technical summaries in approvals
 
+### PR Comment Filler Words
+- "Solid" (as in "solid approach", "solid work")
+- "Scaffolding"
+- "Clean" (as in "clean implementation", "clean code")
+
 ### The Fatal Pattern (NEVER use)
 - "This isn't X. This is Y." and ALL variations.
 - "Not X. Y." / "Forget X. This is Y." / "Less X, more Y."
