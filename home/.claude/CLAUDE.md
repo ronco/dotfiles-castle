@@ -83,6 +83,23 @@ Always use Conventional Commits syntax for all commit messages:
 
 Quick summary: diplomatic, collaborative, casual (contractions always), short paragraphs, questions over demands, self-deprecating humor, no AI slop language, no em dashes.
 
+# Drafting Messages for Outside Audiences
+
+When drafting content that will be pasted into an external app (Slack message, email, PR comment, Jira description, kudos, partner-facing response), wrap the final output in a ` ```draft ` fence. The auto-pbcopy `Stop` hook (`~/.claude/hooks/auto-pbcopy.sh`) copies it to the macOS clipboard with rich formatting (HTML + plain text via `NSAttributedString`) as soon as the response finishes.
+
+- One `draft` fence per response — the hook grabs the last one
+- Everything inside the fence is markdown; the hook handles conversion
+- For purely internal outputs (summaries, plans, status updates in the CLI), don't use the fence — it just adds noise to the clipboard
+- If Ron explicitly asks for `/rich-clipboard` or a manual clipboard copy, defer to that request over the automatic path
+
+# Verification Before Claiming
+
+Never describe a capability, monitor, integration, metric, or feature as existing, working, or deployed unless you've verified it in the current codebase or a trusted runtime source (Datadog, the dashboard, the deployed config). This applies especially to partner-facing messages, PR comments, and incident responses — places where overclaiming damages trust.
+
+- If unverified, phrase as a question or proposal: "Proposed:", "Not yet built:", "I believe this is wired up but haven't confirmed".
+- When referencing a monitor, metric, or log line, confirm the name matches production before committing to it in outbound communication.
+- If asked to draft something that asserts capabilities, list what's verified vs. assumed at the top of the draft. Let Ron decide what to keep.
+
 # Infrastructure-as-Code Standards
 
 ## AWS CDK
@@ -94,6 +111,14 @@ Quick summary: diplomatic, collaborative, casual (contractions always), short pa
 ## Testing
 - **Framework:** Always use PyTest over UnitTest for all Python testing
 - Use pytest fixtures, parametrize, and other pytest-specific features when appropriate
+
+# Web Scraping
+
+Default starting points for scraping conference sites, attendee lists, or any auth-gated paginated source:
+
+- **Browser automation:** attach to Ron's existing Arc browser via CDP rather than spinning up fresh Playwright Chromium. Bot detection (Cloudflare, Kasada, DataDome) and IndexedDB-based auth consistently defeat headless and even headed fresh Chromium instances. Reference: the Rakuten Optimism 2026 scraper playbook in the repo where it shipped.
+- **Rate limiting:** any paginated API call (Grip, Swoogo, partner APIs) needs retry-with-exponential-backoff on 429 responses from the first iteration. Don't wait for the rate-limit to bite mid-scrape.
+- **HAR first:** when the target has a browser flow, capture a HAR file of a manual walk-through before writing scraper code. The HAR shows the exact API contract and auth headers and saves cycles on guesswork.
 
 # UI Development Preferences
 
