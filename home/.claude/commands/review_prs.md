@@ -117,3 +117,34 @@ Find and review PRs across specified GitHub organizations.
 6. **Wrap up**
 
    After reviewing all human-authored PRs, summarize what was done and remind the user about any remaining bot PRs.
+
+## Review Heuristics
+
+### Approve confidently when
+- Diff is small (< 50 lines) OR docs/tests only
+- CI is green
+- Scope matches PR title and linked Jira ticket
+- No public API changes
+- Existing tests cover the change, or tests were added
+- Author has recent track record in this area
+
+Draft an `lgtm`-style approval — see `~/.claude/voice.md` → *PR-Specific Voice → Review Approvals*.
+
+### Raise a concern or block when
+- **Tag cardinality** — new Datadog tags derived from user IDs, request IDs, timestamps, or unbounded strings
+- **Observability gaps** — new code paths without metrics or logs, or log levels that will spam prod
+- **Migration safety** — schema changes without a backfill plan, `NOT NULL` adds on large tables, non-idempotent migrations
+- **Merge commits in the branch history** — often a force-push to the feature branch is safer than preserving the merge; confirm with the author before recommending
+- **Unverified capability claims** — if the PR description asserts a behavior, confirm it exists in the diff before echoing it in an approval comment
+
+### Verify before asserting
+Never describe a capability, monitor, integration, or feature as "working" or "in place" unless it's in the diff. If speculating about future behavior, phrase as a question or prefix with "assuming this is wired up". Past sessions have shipped comments describing monitors that weren't actually built — don't compound that.
+
+## Voice
+
+All drafted comments must match Ron's voice. The primary reference is `~/.claude/voice.md`, especially:
+- *PR-Specific Voice → Review Approvals*
+- *PR-Specific Voice → Feedback Style* (questions not commands)
+- *Banned Phrases* — especially "solid", "clean", uppercase "LGTM", em dashes, "this isn't X. this is Y."
+
+Before posting, re-read the drafted comment against the banned phrases list.
