@@ -6,11 +6,15 @@
 # fails for any reason.
 set -uo pipefail
 
+LOG="$HOME/.claude/auto-pbcopy.log"
+log() { printf '%s %s\n' "$(date '+%Y-%m-%dT%H:%M:%S%z')" "$*" >> "$LOG" 2>/dev/null; }
+
 INPUT=$(cat)
 
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty' 2>/dev/null)
 
 if [ -z "$TRANSCRIPT" ] || [ ! -f "$TRANSCRIPT" ]; then
+  log "skip: no transcript_path or file missing (got '$TRANSCRIPT')"
   exit 0
 fi
 
@@ -27,7 +31,10 @@ LAST_ASSISTANT=$(jq -s -r '
   end
 ' "$TRANSCRIPT" 2>/dev/null)
 
-[ -z "$LAST_ASSISTANT" ] && exit 0
+if [ -z "$LAST_ASSISTANT" ]; then
+  log "skip: empty last-assistant text (transcript=$TRANSCRIPT)"
+  exit 0
+fi
 
 # Pull the last ```draft ... ``` fence from the message.
 DRAFT=$(printf '%s' "$LAST_ASSISTANT" | awk '
@@ -37,17 +44,20 @@ DRAFT=$(printf '%s' "$LAST_ASSISTANT" | awk '
   END { printf "%s", last_draft }
 ')
 
-[ -z "$DRAFT" ] && exit 0
+if [ -z "$DRAFT" ]; then
+  log "skip: no draft fence (last_assistant_len=${#LAST_ASSISTANT})"
+  exit 0
+fi
 
-# Try the rich path first: NSAttributedString(markdown:) → HTML + plain text on NSPasteboard.
-# Background it so the hook returns fast.
+# Run swift synchronously; fall back to plain pbcopy on failure.
+# Removed prior backgrounding — process-group cleanup by the harness was
+# (suspected of) killing the backgrounded swift before it could write.
 SWIFT_SCRIPT="$HOME/.claude/hooks/clipboard-write.swift"
-(
-  if ! printf '%s' "$DRAFT" | /usr/bin/swift "$SWIFT_SCRIPT" 2>/dev/null; then
-    # Fallback: plain pbcopy if Swift path failed
-    printf '%s' "$DRAFT" | /usr/bin/pbcopy
-  fi
-) &
-disown
+if printf '%s' "$DRAFT" | /usr/bin/swift "$SWIFT_SCRIPT" 2>/dev/null; then
+  log "ok: swift wrote clipboard (draft_len=${#DRAFT})"
+else
+  printf '%s' "$DRAFT" | /usr/bin/pbcopy
+  log "ok: fallback pbcopy wrote clipboard (draft_len=${#DRAFT}, swift failed)"
+fi
 
 exit 0
